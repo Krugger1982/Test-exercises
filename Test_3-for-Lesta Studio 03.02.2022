@@ -1,3 +1,5 @@
+# Задание 3
+
 import random
 def quicksort(nums):
    if len(nums) <= 1:
