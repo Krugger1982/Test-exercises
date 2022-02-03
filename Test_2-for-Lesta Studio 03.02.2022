@@ -1,0 +1,80 @@
+# A. Реализация класса на основе списка list
+
+class RingBuffer:
+    def __init__(self, size):
+        # Инициируем массив - буфер на основе списка
+        self.size = size
+        self.datd = [] # Изначально буфер пустой
+
+    def push(self, item):
+        # Вставка в буфер
+        self.data.append(item)
+        if len(self.data) > self.size:
+            # Если буфер  переполнен
+            self.data.pop()
+
+    def pull(self):
+        # выдача самого старого элемента
+        if len(data) > 0:
+            # Если буфер не пуст
+            return self.data.pop(0)
+        return None
+       
+# Плюсы 	– простая реализация
+# 	      - ассимптотика вставки О(1)
+# Минусы	- ассимптотика удаления – O(n)
+
+
+# B. Реализация класса на основе связного списка LinkedList
+
+class Node:
+
+    def __init__(self, v):
+        self.value = v
+        self.next = None
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    def add_in_tail(self, value):
+        item = Node(value)
+        # преобразуем вставляемый элемент в ноду
+        if self.head is None:
+            self.head = item
+        else:
+            self.tail.next = item
+        self.tail = item
+        self.length += 1
+
+    def pop_from_head(self):
+        item = head
+        if head.next is not None:
+            head = head.next
+            self.length -= 1
+            return item.value
+        return None
+ 
+
+class RingBuffer:
+    def __init__(self, size):
+        # Инициируем массив - буфер на основе связного списка
+        self.size = size
+        self.data = LinkedList()
+
+    def push(self, item):
+        # Вставка в буфер
+        self.data.add_in_tail(item)
+        while self.data.length() > self.size:
+            # Если буфер  переполнен
+            self.data.pop_from_head()
+
+    def pull(self):
+        # выдача самого старого элемента
+        if self.data.length() > 0:
+            # Если буфер не пуст
+            return self.data.pop_from_head()
+        return None
