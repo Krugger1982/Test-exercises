@@ -147,4 +147,10 @@ labors - численность сотрудников
 2) число сотрудников компании не менее 1000 человек
 
 Решение:
-
+    SELECT Countries.name
+           COUNT(Company.id)
+      FROM Countries 
+INNER JOIN Cities ON Cities.country-id = Countries.id
+INNER JOIN Companies ON Companies.city-id = Cities.id
+     WHERE Companies.labor >= 1000
+               
