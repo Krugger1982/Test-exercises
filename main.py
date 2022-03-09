@@ -141,6 +141,7 @@ comboExperience.pack(fill=tk.X)
 comboExperience.current(0)
 
 frame_greetings.pack(fill=tk.X)
+frame_profession.pack(fill=tk.X)
 frame_keywords.pack(fill=tk.X)
 frame_town.pack(fill=tk.X)
 frame_education.pack(fill=tk.X)
