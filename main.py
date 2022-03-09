@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import json
 import requests
+import time
 
 def clear():
     entry_keywords.delete(0, tk.END)
@@ -22,18 +23,28 @@ def search():
                   'experience':expirience_establishing(experience_level),
                   'area':find_area(town),
                   'specialization':'1.10',
-                  'education_level':education_establishing(education_level)
+                  'education_level':education_establishing(education_level),
+                  'per_page': 100 # Кол-во вакансий на 1 странице
                  }
-    req = requests.get('https://api.hh.ru/vacancies', parametres)           # Посылаем запрос к API
-    data = req.content.decode()                                             # Декодируем его ответ, чтобы Кириллица отображалась корректно
-    req.close()
-    # А теперь обратимся к каждой из этих вакансий по имеющемуся url, возьмем подробное описание и запишем его в файл
+    for page in range(20):                  # берем первые 2000 ответов
+        parametres['page']= page            # добавляем номер страницы
+        req = requests.get('https://api.hh.ru/vacancies', parametres)           # Посылаем запрос к API
+        data = req.content.decode()                                             # Декодируем его ответ, чтобы Кириллица отображалась корректно
+        req.close()
 
-    data = json.loads(data)
-    with open('preliminary_data.json', mode='a', encoding='utf8') as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
-    file.close()
- 
+
+        data = json.loads(data)
+        with open('preliminary_data.json', mode='a', encoding='utf8') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+        file.close()
+
+        # проверка на случай если вакансий меньше чем 2000
+        
+        if (data['pages'] - page) <= 1:
+            break
+
+    time.sleep(0.25)
+    
 def find_area(town):
     """ находит id указанного города (или области в РФ)
     """
@@ -155,4 +166,3 @@ btn_clear.pack(side=tk.RIGHT, ipadx=10)
 
 
 window.mainloop()
-
